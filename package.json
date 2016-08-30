@@ -1,0 +1,39 @@
+{
+  "name": "barracks-react",
+  "version": "1.0.0",
+  "description": "An action dispatcher for unidirectional data flows for React components",
+  "main": "barracks-react.js",
+  "scripts": {
+    "test": "standard && node test/test.js",
+    "coverage": "standard && istanbul cover test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scriptollc/barracks-react.git"
+  },
+  "keywords": [
+    "barracks",
+    "choo",
+    "react",
+    "flux",
+    "redux",
+    "elm",
+    "unidirectional",
+    "data"
+  ],
+  "author": "Todd Kennedy <todd@selfassembled.org>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/scriptollc/barracks-react/issues"
+  },
+  "homepage": "https://github.com/scriptollc/barracks-react#readme",
+  "dependencies": {
+    "barracks": "^8.2.1",
+    "global": "^4.3.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "standard": "^8.0.0",
+    "tape": "^4.6.0"
+  }
+}

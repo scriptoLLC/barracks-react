@@ -1,0 +1,6 @@
+examples
+test
+.agignore
+.editorconfig
+.travis.yml
+benchmark
