@@ -3,48 +3,55 @@
 An action dispatcher for React that provides for unidirectional dataflows.
 Intended to be very small and provide a small amount of cognative overhead in
 providing an "actions up, data down" type model for React. Built on top of
-[barracks](https://github.com/yoshuawuyts/barracks).
+[barracks](https://github.com/yoshuawuyts/barracks). Bonus -- use this with
+[hyperx](https://github.com/substack/hyperx) for a JSX-free, forward compatible
+version of React!
 
 ## Usage
 ```js
-const breact = require('barracks-react')
-const store = breact()
 const React = require('react')
 const ReactDOM = require('react-dom')
+const hyperx = require('hyperx')
+const html = hyperx(React.createElement)
+const br = require('./')
+const store = br()
 
 const model = {
-  namespace: 'hello',
-  state: {
-    hello: 'no one'
+  namespace: 'example',
+  store: {
+    hello: ''
   },
   reducers: {
-    updateHello: (data, state) => {
-      return {hello: data.value}
-    }
+    setHello: (data, state) => ({hello: data.value})
   }
 }
 
-const View = React.createClass({
-  componentWillMount: function () {
-    this.send = store.register(model, this)
+const Main = React.createClass({
+  getInitialState: function () {
+    return {
+      hello: '',
+      instance: this
+    }
   },
-  componentWillUmount: function () {
+  componentWillMount: function () {
+    this.send = store.register(model, this.state.instance)
+  },
+  componentWillUnmount: function () {
     store.unregister(model)
-  }
+  },
   handleChange: function (evt) {
-    this.send('hello:updateHello', {value: evt.target.value})
+    this.send('example:setHello', {value: evt.target.value})
   },
   render: function () {
-    return (
-      <div>
-        <h1>Hello, {this.state.hello}</h1>
-        <input type="text" value="{this.state.hello}" onChange={this.handleChange} />
-      </div>
-    )
+    return html`<div>
+      <h1>Hello, ${this.state.hello}</h1><br>
+      <input type="text" value="${this.state.hello}" onChange=${this.handleChange} />
+    </div>`
   }
 })
 
-ReactDOM.render(<View />, document.body)
+const main = React.createElement(Main)
+ReactDOM.render(main, document.body)
 ```
 
 ## License

@@ -1,0 +1,17 @@
+{
+  "name": "barracks-react-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "example.js",
+  "scripts": {
+    "start": "budo -lPo example.js"
+  },
+  "author": "Todd Kennedy <todd@selfassembled.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "budo": "^9.0.0",
+    "hyperx": "^2.0.4",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  }
+}

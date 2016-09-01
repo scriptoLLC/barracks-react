@@ -4,3 +4,4 @@ test
 .editorconfig
 .travis.yml
 benchmark
+example

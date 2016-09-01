@@ -18,11 +18,12 @@ const model = {
 const Main = React.createClass({
   getInitialState: function () {
     return {
-      hello: ''
+      hello: '',
+      instance: this
     }
   },
   componentWillMount: function () {
-    this.send = store.register(model, this)
+    this.send = store.register(model, this.state.instance)
   },
   componentWillUnmount: function () {
     store.unregister(model)
@@ -38,5 +39,8 @@ const Main = React.createClass({
   }
 })
 
-const main = new Main()
-ReactDOM.render(main.render(), document.body)
+const main = React.createElement(Main)
+const mount = document.createElement('div')
+mount.id = 'example'
+document.body.appendChild(mount)
+ReactDOM.render(main, mount)
