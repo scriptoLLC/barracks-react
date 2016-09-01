@@ -2,7 +2,7 @@ const React = require('react')
 const ReactDOM = require('react-dom')
 const hyperx = require('hyperx')
 const html = hyperx(React.createElement)
-const br = require('./')
+const br = require('barracks-react')
 const store = br()
 
 const model = {

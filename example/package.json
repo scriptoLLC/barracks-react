@@ -9,6 +9,7 @@
   "author": "Todd Kennedy <todd@selfassembled.org>",
   "license": "Apache-2.0",
   "dependencies": {
+    "barracks-react": "^1.0.0",
     "budo": "^9.0.0",
     "hyperx": "^2.0.4",
     "react": "^15.3.1",
