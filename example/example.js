@@ -18,12 +18,11 @@ const model = {
 const Main = React.createClass({
   getInitialState: function () {
     return {
-      hello: '',
-      instance: this
+      hello: ''
     }
   },
   componentWillMount: function () {
-    this.send = store.register(model, this.state.instance)
+    this.send = store.register(model, this)
   },
   componentWillUnmount: function () {
     store.unregister(model)
@@ -34,7 +33,7 @@ const Main = React.createClass({
   render: function () {
     return html`<div>
       <h1>Hello, ${this.state.hello}</h1><br>
-      <input type="text" value="${this.state.hello}" onChange=${this.handleChange} />
+      <input type="text" value="${this.state.hello}" onChange=${(e) => this.handleChange(e)} />
     </div>`
   }
 })
