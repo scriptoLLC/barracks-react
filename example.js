@@ -1,12 +1,3 @@
-# barracks-react
-
-An action dispatcher for React that provides for unidirectional dataflows.
-Intended to be very small and provide a small amount of cognative overhead in
-providing an "actions up, data down" type model for React. Built on top of
-[barracks](https://github.com/yoshuawuyts/barracks).
-
-## Usage
-```js
 const React = require('react')
 const ReactDOM = require('react-dom')
 const bearact = require('./')
@@ -37,7 +28,3 @@ const main = React.createElement(bearact(Main, model))
 const mount = document.createElement('div')
 document.body.appendChild(mount)
 ReactDOM.render(main, mount)
-```
-
-## License
-Copyright © 2016 Scripto, licenced under the Apache-2.0 license

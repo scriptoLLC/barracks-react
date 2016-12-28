@@ -5,3 +5,4 @@ Chrome*
 *swp
 coverage
 .nyc_output
+coverage.json

@@ -1,45 +1,43 @@
+const React = require('react')
 const barracks = require('barracks')
-const noop = () => {}
+const sid = require('shortid')
 
-function generateStore (onError) {
-  const components = {}
-  const currentAction = {}
-  const opts = {
-    onError: onError || noop,
-    onAction: (data, state, name, caller, createSend) => {
-      const action = name.split(':')[1]
-      currentAction[action] = caller
+function generateStore (component, model) {
+  const BarracksReact = React.createClass({
+    componentWillMount: function () {
+      if (!model.namespace) {
+        model.namespace = sid.generate()
+      }
+      this.namespace = model.namespace
+      this.store = barracks()
+      this.store.use({
+        onError: (err) => {
+          this.setState({err})
+        },
+        onStateChange: (state, data, prev, caller) => {
+          this.setState({model: state[this.namespace]})
+        }
+      })
+      this.store.model(model)
+
+      const createSend = this.store.start({subscriptions: false})
+      const _send = createSend('reactDispatcher', true)
+      const send = (action, msg) => {
+        _send(`${this.namespace}:${action}`, msg)
+      }
+      this.setState({model: Object.assign({}, model.state), send})
     },
-    onStateChange: (data, state, prev, caller, createSend) => {
-      const ns = currentAction[caller]
-      delete currentAction[caller]
-      components[ns] && components[ns](state)
-    }
-  }
-  const store = barracks(opts)
-  return {register, deregister}
 
-  function register (model, component) {
-    if (typeof model.namespace !== 'string') {
-      throw new Error('Models must have namespaces')
-    }
+    componentWillUnmount: function () {
+      this.store.stop()
+    },
 
-    components[model.namespace] = (appState) => {
-      component.setState(appState[model.namespace])
+    render: function () {
+      return React.createElement(component, this.state)
     }
+  })
 
-    store.model(model)
-    const createSend = store.start({noSubscriptions: true})
-    const send = createSend(model.namespace, true)
-    return send
-  }
-
-  function deregister (name) {
-    if (typeof name !== 'string') {
-      name = name.namespace
-    }
-    components[name] = void 0
-  }
+  return BarracksReact
 }
 
 module.exports = generateStore

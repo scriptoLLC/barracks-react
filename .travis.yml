@@ -1,0 +1,12 @@
+node_js:
+  - '6'
+sudo: false
+language: node_js
+addons:
+  apt:
+    packages:
+      - xvfb
+before_install:
+  - export DISPLAY='99.0'
+  - Xvfb :99 -screen 0 1027x768 > /dev/null 2>&1 &
+script: npm run coverage
