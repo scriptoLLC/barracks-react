@@ -4,8 +4,10 @@
   "description": "An action dispatcher for unidirectional data flows for React components",
   "main": "barracks-react.js",
   "scripts": {
-    "test": "standard && node test/test.js",
-    "coverage": "standard && istanbul cover test/test.js"
+    "test": "standard && browserify -d -x react/addons -x react/lib/ReactContext -x react/lib/ExecutionEnvironment test/test.js | tape-run",
+    "coverage": "standard && browserify -d -p tape-istanbul/plugin -x react/addons -x react/lib/ReactContext -x react/lib/ExecutionEnvironment test/test.js | tape-run | tape-istanbul",
+    "cov": "npm run coverage && istanbul report && opener coverage/lcov-report/index.html",
+    "example": "budo -o example.js"
   },
   "repository": {
     "type": "git",
@@ -28,12 +30,23 @@
   },
   "homepage": "https://github.com/scriptollc/barracks-react#readme",
   "dependencies": {
-    "barracks": "^8.2.1",
-    "global": "^4.3.0"
+    "barracks": "^9.2.1",
+    "react": "^15.4.1",
+    "shortid": "^2.2.6"
   },
   "devDependencies": {
+    "browserify": "^13.1.1",
+    "browserify-istanbul": "^2.0.0",
+    "budo": "^9.3.0",
+    "enzyme": "^2.7.0",
+    "hyperx": "^2.0.5",
     "istanbul": "^0.4.5",
+    "opener": "^1.4.2",
+    "react-addons-test-utils": "^15.4.1",
+    "react-dom": "^15.4.1",
     "standard": "^8.0.0",
-    "tape": "^4.6.0"
+    "tape": "^4.6.0",
+    "tape-istanbul": "^1.0.4",
+    "tape-run": "^2.1.5"
   }
 }
