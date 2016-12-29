@@ -1,5 +1,7 @@
 /// <reference types="react" />
 
+declare namespace bearact {}
+
 interface IGenericObj {
   [key: string]: any
 }
@@ -13,4 +15,4 @@ interface IBarracksModel {
 }
 
 declare function bearact(component: React.Component<any, any>, model: IBarracksModel)
-export = bearact
+export = bearact;
