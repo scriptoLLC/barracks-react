@@ -23,17 +23,38 @@ const testStore = {
   }
 }
 
+const testStore2 = {
+  namespace: 'boop',
+  state: {
+    header: 'beep'
+  },
+  reducers: {
+    update: function (state, data) {
+      return {header: data}
+    }
+  }
+}
+
 const TestComponent = React.createClass({
   change: function (evt) {
     evt.preventDefault()
-    this.props.send('update', 'foobar')
+    this.props.send('foo:update', 'foobar')
   },
   render: function () {
     const props = {
-      onClick: (evt) => this.props.send('update', 'foobar'),
-      onBlur: (evt) => this.props.send('makeError')
+      onClick: (evt) => this.props.send('foo:update', 'foobar'),
+      onBlur: (evt) => this.props.send('foo:makeError')
     }
-    return React.createElement('h1', props, `${this.props.err || this.props.model.header}`)
+    return React.createElement('h1', props, `${this.props.err || this.props.data.foo.header}`)
+  }
+})
+
+const TestComponent2 = React.createClass({
+  render: function () {
+    const props = {
+      onClick: (evt) => this.props.send('boop:update', 'plorb')
+    }
+    return React.createElement('h1', props, `${this.props.data.boop.header} ${this.props.data.foo.header}`)
   }
 })
 
@@ -61,25 +82,15 @@ tape('basic', (t) => {
   }, 5)
 })
 
-tape('no namespace', (t) => {
-  const store = {
-    state: {
-      header: 'beep'
-    },
-    reducers: {
-      update: function (state, data) {
-        return {header: data}
-      }
-    }
-  }
-  const Test = bearact(TestComponent, store)
+tape('multimodel', (t) => {
+  const Test = bearact(TestComponent2, [testStore, testStore2])
   const el = React.createElement(Test, {}, null)
   const wrapper = mount(el)
   const h1 = wrapper.find('h1')
-  t.equal(h1.text(), store.state.header)
+  t.equal(h1.text(), `${testStore2.state.header} ${testStore.state.header}`)
   h1.simulate('click')
   setTimeout(() => {
-    t.equal(wrapper.find('h1').text(), 'foobar')
+    t.equal(wrapper.find('h1').text(), 'plorb test')
     t.end()
   }, 5)
 })
