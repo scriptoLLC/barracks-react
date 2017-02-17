@@ -1,34 +1,58 @@
 const React = require('react')
 const barracks = require('barracks')
+const shortid = require('shortid')
+const store = barracks()
+const data = {}
+const components = {}
+let send
 
-function generateStore (component, models) {
+store.use({
+  onError: (err) => {
+    updateComponents(err)
+  },
+  onStateChange: (state, data, prev, caller) => {
+    updateComponents(null, state)
+  }
+})
+
+function addModels (models) {
+  if (send) {
+    throw new Error('Cant add after start')
+  }
+
+  if (!Array.isArray(models)) {
+    models = [models]
+  }
+
+  models.forEach((model) => {
+    store.model(model)
+    data[model.namespace] = model.state
+  })
+}
+
+function updateComponents (err, data) {
+  Object.keys(components).forEach(k => components[k]({err, data}))
+}
+
+function connectComponent (component, models) {
+  if (!send) {
+    const createSend = store.start({subscriptions: false})
+    send = createSend('reactDispatcher', true)
+  }
+
   const BarracksReact = React.createClass({
-    componentWillMount: function () {
-      if (!Array.isArray(models)) {
-        models = [models]
-      }
-      this.store = barracks()
-      this.store.use({
-        onError: (err) => {
-          this.setState({err})
-        },
-        onStateChange: (state, data, prev, caller) => {
-          this.setState({data: state})
-        }
-      })
-      const data = {}
-      models.forEach((model) => {
-        this.store.model(model)
-        data[model.namespace] = model.state
-      })
+    getInitialState: function () {
+      this._bid = shortid.generate()
+      components[this._bid] = this.setState.bind(this)
+      return {data, send}
+    },
 
-      const createSend = this.store.start({subscriptions: false})
-      const send = createSend('reactDispatcher', true)
-      this.setState({data, send})
+    componentWillMount: function () {
+      this.setState({data})
     },
 
     componentWillUnmount: function () {
-      this.store.stop()
+      delete components[this._bid]
     },
 
     render: function () {
@@ -39,4 +63,4 @@ function generateStore (component, models) {
   return BarracksReact
 }
 
-module.exports = generateStore
+module.exports = {addModels, connectComponent}

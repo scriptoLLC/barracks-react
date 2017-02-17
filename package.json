@@ -33,7 +33,8 @@
   "dependencies": {
     "@types/react": "^0.14.55",
     "barracks": "^9.2.1",
-    "react": "^15.4.1"
+    "react": "^15.4.1",
+    "shortid": "^2.2.6"
   },
   "devDependencies": {
     "browserify": "^13.1.1",
