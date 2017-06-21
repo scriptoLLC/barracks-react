@@ -31,23 +31,23 @@
   },
   "homepage": "https://github.com/scriptollc/barracks-react#readme",
   "dependencies": {
-    "@types/react": "^0.14.55",
+    "@types/react": "^15.0.30",
     "barracks": "^9.2.1",
     "react": "^15.4.1"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
+    "browserify": "^14.4.0",
     "browserify-istanbul": "^2.0.0",
-    "budo": "^9.3.0",
+    "budo": "^10.0.3",
     "enzyme": "^2.7.0",
     "hyperx": "^2.0.5",
     "istanbul": "^0.4.5",
     "opener": "^1.4.2",
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.4.1",
-    "standard": "^8.0.0",
+    "standard": "^10.0.2",
     "tape": "^4.6.0",
     "tape-istanbul": "^1.0.4",
-    "tape-run": "^2.1.5"
+    "tape-run": "^3.0.0"
   }
 }
