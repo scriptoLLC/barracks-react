@@ -1,5 +1,7 @@
 # barracks-react
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/scriptoLLC/barracks-react.svg)](https://greenkeeper.io/)
+
 An action dispatcher for React that provides for unidirectional dataflows.
 Intended to be very small and provide a small amount of cognative overhead in
 providing an "actions up, data down" type model for React. Built on top of
